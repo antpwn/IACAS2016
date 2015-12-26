@@ -32,9 +32,9 @@
 	
 	\begin{abstract}
 		In this paper a computational fluid dynamic (CFD) model is developed. A comparison with measurement data is made using spatial distribution of flow parameters as well as a \emph{Taylor-Sedov} blast wave model analysis.
-		The numerical solution is carried out using a modified \texttt{OpenFOAM}  open source toolbox solver, \texttt{forcedIcoFoam} -- a pressure based solver modified to include an external acceleration field acting on the flow.	
+		The numerical solution is carried out using a modified \texttt{OpenFOAM} open source toolbox solver, based on the \texttt{icoFoam} solver. The \texttt{icoFoam} is a pressure based solver for transient incompressible flows which was modified to include an external force field acting on the flow.
 		The flow properties -- pressure and velocity qualitatively analyzed in different periods of simulation time. The pressure front position and static values, caused by the jet expansion with respect to time, are sampled and compared to the results obtained from experiment and the \emph{Taylor-Sedov} blast model.
-		The CFD jet model of the CAJ predicts well the observed phenomenons from experiments -- \emph{i.e.} forming of an initial cylindrical expansion zone at $1~\mu s$, steady conditions in the jet area after around $t = 100~\mu s$, and compatibility with the \emph{Taylor-Sedov} blast model pressure front position and velocity, with respect to time and distance, respectively. 
+		The CFD jet model of the CAJ predicts well the observed phenomenons from experiments -- \emph{i.e.} forming of an initial cylindrical expansion zone at $1~\mu s$, steady conditions in the CAJ region after around $t = 100~\mu s$, and compatibility with the \emph{Taylor-Sedov} blast model pressure front position and velocity, with respect to time and distance, respectively. 
 	\end{abstract}
 
 \section{Introduction}
@@ -183,7 +183,7 @@ The numerical approach is based on the assumption that the CAJ effect on the bac
 
 The numerical solution is carried out using a modified \texttt{OpenFOAM} \cite{OPENFOAM} open source toolbox solver, based on the \texttt{icoFoam} solver. The \texttt{icoFoam} is a pressure based solver for transient incompressible flows which was modified to include an external force field acting on the flow. An attempt was made to modify the compressible transient solvers \texttt{rhoCentralFoam}, \texttt{rhoPimpleFoam} without success - due to complex flux calculations methods implemented in the solvers. It is therefore important to note that compressibility effects are not taken into account in the proposed Numerical Model. This fact is plausible due to the fact that $\mathrm{M} < 1$ at boundary, as described in Section \ref{sec:physical_model}, Subsection \ref{subs:CAJ_expansion}, but should be taken into account when discussing the velocity profile.
 
-The numerical domain consists of 250 $\times$ 400\footnote{The grid dimension was calculated by conducting grid size sensitivity runs} grid points representing a 10 mm $\times$ 20 mm dimensioned physical domain. 
+The numerical domain consists of 250 $\times$ 400\footnote{Grid dimensions were obtained by conducting grid size sensitivity runs, analyzing the CAJ profile} grid points representing a 15 mm $\times$ 30 mm dimensioned physical domain. 
 
 We simulate the plasma-gas interaction by assuming a constant acceleration field just beneath the CAJ expansion plume region. The field properties are defined by the cathode spot and background gas parameters, as described in Section \ref{sec:physical_model}, Subsection \ref{subs:boundary_radius}. For the observed parameters representing the experiment \cite{KR} of Fig.~\ref{fig:CAJ}, the field was placed at $ y < 0.5~ \mathrm{mm} $ at a width of $r = 1~\mathrm{mm}$ (Fig. \ref{fig:force_field}), centered around $x=0~\mathrm{mm}$. This corresponds to a discharge current of around 230 A.
 
@@ -199,11 +199,11 @@ Following measurement data \cite{KRClose}, the acceleration field is adjusted to
 
 The simulation is executed at a modified time step  constraining a Courant number, $\mathcal{C} \leq 0.1$, for a total simulation time of $t = 500~\mu s$. The solution is depicted at the numerical domain region corresponding with the CAJ plume expansion region ($ y > 1 \mathrm{mm} $). 
 
-The velocity and pressure fields obtained at $ t = 500~\mu s $ are illustrated in Fig. \ref{fig:velocity_field} and Fig. \ref{fig:pressure_field}, respectively.
+The velocity and pressure fields obtained at $ t = 500~\mu s $ are illustrated in Fig. \ref{fig:velocity_field} and Fig. \ref{fig:pressure_field}, respectively. The acceleration field results in the formation of a time evolving jet that reaches pseudo-steady-state conditions by $t = 500~\mu s$.
 
-The pressure front position and velocity obtained in a simulation are visualized in Fig. \ref{fig:model_position} and Fig. \ref{fig:model_velocity}, respectively. 
+The pressure front position and velocity obtained in a simulation are visualized in Fig. \ref{fig:model_position} and Fig. \ref{fig:model_velocity}, respectively. There's a very good correspondence between the Taylor-Sedov \cite{TAYLOR,SEDOV} Blast model and the pressure/velocity front velocities obtained in the simulation. A comparison between the measurements from \cite{KR} shows as well similar behaviors for the velocity front evolution with time.
 
-The pressure front velocity and the CAJ velocity profile evolution are depicted in Fig. \ref{fig:model_caj_velocity}.
+The pressure front velocity and the CAJ velocity profile evolution are depicted in Fig. \ref{fig:model_caj_velocity}. We see that even though the velocity profile developed in the CAJ  follows the pressure's front velocity behind, the former one is larger in magnitude. This phenomenon corresponds well with the constant mass flux assumption yielding higher speeds at higher temperature regions obtained inside the CAJ region relative to lower speeds obtained at lower temperature obtained at the CAJ boundary with the background gas. However, these two velocities converge as the CAJ temperature drops towards the boundary with the background gas. 
 
 \begin{figure}
 	\centering
@@ -217,7 +217,7 @@ The pressure front velocity and the CAJ velocity profile evolution are depicted 
 		\includegraphics[width=1\textwidth]{pressureField}
 		\label{fig:pressure_field}
 	}
-	\caption{(a) Velocity field, $ t = 150~\mu s $; (b) Pressure field, $ t = 150~\mu s $}
+	\caption{(a) Velocity field, $ t = 500~\mu s $; (b) Pressure field, $ t = 500~\mu s $}
 \end{figure}
 
 \begin{figure}
@@ -238,6 +238,12 @@ The pressure front velocity and the CAJ velocity profile evolution are depicted 
 	\caption{Front expansion rate (red squares); Time evolution of the CAJ velocity profile for sample times of $10~\mu s$, $50~\mu s$, $100~\mu s$, $150~\mu s$ and Steady state conditions (bline line); $50~m/s$ boundary line (black dash) }
 	\label{fig:model_caj_velocity}
 \end{figure}
+
+\section{Conclusions}
+A computational fluid dynamic (CFD) model is developed and compared with measurement data by using spatial distribution of flow parameters as well as a \emph{Taylor-Sedov} blast wave model analysis.
+A modified \texttt{OpenFOAM} open source toolbox solver, based on the \texttt{icoFoam} solver was modified to include an external force field acting on the flow, simulating the acceleration of the background gas due to the plasma source.
+The flow properties -- pressure and velocity were qualitatively analyzed in different periods of simulation time and showed a good corresponds with the measurements obtained at \cite{KR,KRClose,KRFar} (See Fig. \ref{fig:CAJ}). The pressure front position and static values, caused by the jet expansion with respect to time, were sampled and compared to the results obtained from experiment and the \emph{Taylor-Sedov} blast mode and showed a good correspondence between the results (See Figs. \ref{fig:model_position},\ref{fig:model_velocity}).
+All in all, the CFD jet model of the CAJ predicts well the observed phenomenons from experiments -- \emph{i.e.} forming of an initial cylindrical expansion zone at $1~\mu s$, steady conditions in the CAJ region after around $t = 100~\mu s$, and compatibility with the \emph{Taylor-Sedov} blast model pressure front position and velocity, with respect to time and distance, respectively. Further studies are to be conducted analyzing the effects of cross-flow background gas \cite{KRClose} on the CAJ based on the suggested implementation of the model.
 
 \clearpage
 \bibliography{bibtex_database}
