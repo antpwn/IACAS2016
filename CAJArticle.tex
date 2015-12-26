@@ -61,18 +61,7 @@ In a recent study \cite{KR}, cathodic arcs operating at atmospheric pressure env
 %The CFD jet model of the CAJ predicts well the observed phenomenons from \cite{KR} -- \emph{i.e.} forming of an initial cylindrical expansion zone at $1~\mu s$, steady conditions in the jet area after around $t = 100~\mu s$, and compatibility with the \emph{Taylor-Sedov} blast model pressure front position and velocity, with respect to time and distance, respectively. Modeling the CAJ as a jet results in some deficiencies -- mainly the addition of mass to the background gas domain and the generation of vortices caused by the flow expansion at the inlet edge. These deficiencies are notable in the local jet domain and must be accounted for in the final CFD model of the CAJ. 
 %
 %
-%\begin{figure}
-%	\subfloat[Position]{
-%		\includegraphics[width=0.5\textwidth]{ModelJetPosition.eps}
-%		\label{fig:model_position}
-%	}
-%	\subfloat[Velocity vs. Position]{
-%		\includegraphics[width=0.5\textwidth]{ModelJetVelocity.eps}
-%		\label{fig:model_velocity}
-%	}
-%	\caption{(a) Time evolution of gas pressure front position (squares - experiment, stars - CFD) together with a linear fit of the blast wave model (black line); (b) the gas pressure front velocity versus position, measured in the direction of the plasma jet (squares) together with the computed CFD velocity of the front (stars). Experiment data reproduced from \cite{KR}.}
-%	\label{fig:model_blast}
-%\end{figure}
+
 \section{Physical Model}\label{sec:physical_model}
 Observing Fig. \ref{fig:CAJ}, we can divide the formation of a CAJ to two subsequent events:
 \begin{enumerate}
@@ -181,68 +170,73 @@ Using the state equation for an ideal gas, we get:
 Where $T$ is the temperature and $R$ is the specific gas constant. \eqref{eqn:force_gas_temperature} relates the gas temperature to the jet velocity. We can therefore express the Mach number at the boundary, as:
 
 \begin{eqnarray}
-	M &=& \frac{V_g}{a} \\
+	\mathrm{M} &=& \frac{V_g}{a} \\
 	 &=& \frac{\sqrt{RT}}{\sqrt{\gamma R T}}\\\label{eqn:mach}
 	 &=& \sqrt{\frac{1}{\gamma}}
 \end{eqnarray}
 
-For most cases $\gamma \geq 1$, where specifically for ideal air $\gamma = 1.4$ -- We can therefore conclude that the boundary Mach has high subsonic values.
+For most cases $\gamma \geq 1$. Specifically for ideal air $\gamma = 1.4$ -- We can therefore conclude that the boundary Mach is $\mathrm{M} = 0.845$
 
 \section{Numerical Model}
 
 The numerical approach is based on the assumption that the CAJ effect on the background gas can be simulated by an application of acceleration field which causes the gas to reach the velocities obtained in the \cite{KR}. Therefore the jet simulation corresponds to a hot gas expansion at a subsonic speed.
 
-The numerical solution is carried out using a modified \texttt{OpenFOAM} \cite{OPENFOAM} open source toolbox solver, based on the \texttt{icoFoam} solver. The \texttt{icoFoam} is a pressure based solver for transient incompressible flows which was modified to include an external force field acting on the flow.
+The numerical solution is carried out using a modified \texttt{OpenFOAM} \cite{OPENFOAM} open source toolbox solver, based on the \texttt{icoFoam} solver. The \texttt{icoFoam} is a pressure based solver for transient incompressible flows which was modified to include an external force field acting on the flow. An attempt was made to modify the compressible transient solvers \texttt{rhoCentralFoam}, \texttt{rhoPimpleFoam} without success - due to complex flux calculations methods implemented in the solvers. It is therefore important to note that compressibility effects are not taken into account in the proposed Numerical Model. This fact is plausible due to the fact that $\mathrm{M} < 1$ at boundary, as described in Section \ref{sec:physical_model}, Subsection \ref{subs:CAJ_expansion}, but should be taken into account when discussing the velocity profile.
 
-The numerical domain consists of 250 $\times$ 400 grid points representing a 10 mm $\times$ 20 mm dimensioned physical domain. 
+The numerical domain consists of 250 $\times$ 400\footnote{The grid dimension was calculated by conducting grid size sensitivity runs} grid points representing a 10 mm $\times$ 20 mm dimensioned physical domain. 
 
 We simulate the plasma-gas interaction by assuming a constant acceleration field just beneath the CAJ expansion plume region. The field properties are defined by the cathode spot and background gas parameters, as described in Section \ref{sec:physical_model}, Subsection \ref{subs:boundary_radius}. For the observed parameters representing the experiment \cite{KR} of Fig.~\ref{fig:CAJ}, the field was placed at $ y < 0.5~ \mathrm{mm} $ at a width of $r = 1~\mathrm{mm}$ (Fig. \ref{fig:force_field}), centered around $x=0~\mathrm{mm}$. This corresponds to a discharge current of around 230 A.
 
 \begin{figure}[htbp]
 	\centering
 	\includegraphics[width=0.9\textwidth]{forceField}
-	\caption{Force field representation in the numerical domain}\label{fig:force_field}
+	\caption{Force field representation in the numerical domain. Red zone corresponds with the added acceleration field}\label{fig:force_field}
 \end{figure}
 
 Following measurement data \cite{KRClose}, the acceleration field is adjusted to yield a velocity of $500~ m/s$. It is assumed that the discharge current affects the observed initial CAJ expansion velocity location, yet not the value itself, which in turn defined by the background gas properties \cite{KR,KRClose,KRFar}. The gas is assumed to be motionless, atmospheric at a room temperature. The added momentum resulted from the acceleration field is translated to an expansion of the gas in the form of a jet.
 
-The simulation is executed at a modified time step  constraining a Courant number, $\mathcal{C} \leq 0.1$, for a total simulation time of $t = 150~\mu s$.
-
 \section{Results \& Discussion}
 
-Running the simulation for $ t = 150~\mu s $ results in a velocity and pressure fields, as illustrated in Fig. \ref{fig:velocity_field} and Fig. \ref{fig:pressure_field}, respectively. The figures are sampled for the numerical domain region corresponding with the CAJ plume expansion region, i.e $ y > 1 \mathrm{mm} $.
+The simulation is executed at a modified time step  constraining a Courant number, $\mathcal{C} \leq 0.1$, for a total simulation time of $t = 500~\mu s$. The solution is depicted at the numerical domain region corresponding with the CAJ plume expansion region ($ y > 1 \mathrm{mm} $). 
 
-The simulation is sampled at the force field boundary which relates to the beginning of the CAJ plume expansion region $ y = 1 \mathrm{mm} $ at a width of $  r = 0.5 \mathrm{mm}  $, for both velocity and pressure in Table~\ref{t:velocities}.
+The velocity and pressure fields obtained at $ t = 500~\mu s $ are illustrated in Fig. \ref{fig:velocity_field} and Fig. \ref{fig:pressure_field}, respectively.
 
-\begin{table}[hbt]
-	\begin{center}
-		\begin{threeparttable}
-			\caption{Data sampled from simulation at equilibrium of forces, $ t = 150~\mu s$}
-			\label{t:velocities}
-			\begin{tabular}{lcr}
-				& 
-				$ V_y [m/s] $ &
-				$ p [Pa] $ \\\hline
-			Average 	& 235 &	$ 102 \cdot 10^3  $ \\
-			Max 		& 	257	& $ 10\cdot 10^3 $ \\
-			Min 		& 	180	& $ 98\cdot 10^3 $ \\
-			$ \sigma $	& 	22	& $ 2\cdot 10^3 $
-			\end{tabular}
-		\end{threeparttable}
-	\end{center}
-\end{table}
+The pressure front position and velocity obtained in a simulation are visualized in Fig. \ref{fig:model_position} and Fig. \ref{fig:model_velocity}, respectively. 
+
+The pressure front velocity and the CAJ velocity profile evolution are depicted in Fig. \ref{fig:model_caj_velocity}.
 
 \begin{figure}
 	\centering
+	
 	\subfloat[Velocity]{
-		\includegraphics[width=0.5\textwidth]{velocityField}
+		\includegraphics[width=1\textwidth]{velocityField}
 		\label{fig:velocity_field}
 	}
+	
 	\subfloat[Pressure]{
-		\includegraphics[width=0.5\textwidth]{pressureField}
+		\includegraphics[width=1\textwidth]{pressureField}
 		\label{fig:pressure_field}
 	}
 	\caption{(a) Velocity field, $ t = 150~\mu s $; (b) Pressure field, $ t = 150~\mu s $}
+\end{figure}
+
+\begin{figure}
+	\subfloat[Position]{
+		\includegraphics[width=0.5\textwidth]{ModelJetPosition.eps}
+		\label{fig:model_position}
+	}
+	\subfloat[Velocity vs. Position]{
+		\includegraphics[width=0.5\textwidth]{ModelJetVelocity.eps}
+		\label{fig:model_velocity}
+	}
+	\caption{(a) Time evolution of gas pressure front position (squares - experiment, stars - CFD) together with a linear fit of the blast wave model (black line); (b) the gas pressure front velocity versus position, measured in the direction of the plasma jet (squares) together with the computed CFD velocity of the front (stars). Experiment data reproduced from \cite{KR}}
+	\label{fig:model_blast}
+\end{figure}
+
+\begin{figure}
+	\includegraphics[width=\textwidth]{Vel_Times.eps}
+	\caption{Front expansion rate (red squares); Time evolution of the CAJ velocity profile for sample times of $10~\mu s$, $50~\mu s$, $100~\mu s$, $150~\mu s$ and Steady state conditions (bline line); $50~m/s$ boundary line (black dash) }
+	\label{fig:model_caj_velocity}
 \end{figure}
 
 \clearpage
