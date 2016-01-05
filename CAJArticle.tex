@@ -101,26 +101,6 @@ Assuming cylindrical distribution of the gas pressure on the plasma, i.e $A = \p
 
 Where $\mathcal{C} = \sqrt{\frac{1}{\pi}\frac{M_i V_i f}{Z e}\frac{1}{p}}$ is a constant defined by the cathode and experimental parameters. This allows us to relate the boundary radius $r$ to the discharge current, $I_d$, thus resulting in a simplified relation between the two, for a given set of cathode parameters. By using known cathodic arc parameters for Cu ion in \eqref{eqn:rad_equiv_force}: $p = 101 \times 10^3~\mathrm{Pa}$, ion mass $M_i = 1.055 \times 10^{-25}~\mathrm{kg}$, ion velocity $V_i = 12.5 \times 10^3~\mathrm{m/s}$, ion current fraction $f=0.08$, charge state $Z = 1.8$ and $I_d$ values measured in previous experiments \cite{KR,KRClose} we can calculate the resultant boundary radius, $r$. Results for the given parameters are shown in Table~\ref{t:radii}. 
 
-\begin{table}[hbt]
-	\begin{center}
-		\begin{threeparttable}
-			\caption{Calculated CAJ boundary radius}
-			\label{t:radii}
-			\begin{tabular}{lc|c}
-				Parameter &
-				\multicolumn{2}{c}{Value}\\\hline
-				$p$ & \multicolumn{2}{c}{$101 \times 10^3~\mathrm{Pa} $} \\
-				$M_i$  	& \multicolumn{2}{c}{$1.055 \times 10^{-25}~\mathrm{kg} $}  \\
-				$V_i$ 	& \multicolumn{2}{c}{$12.5 \times 10^3~\mathrm{m/s} $}  \\
-				$f$ 	& \multicolumn{2}{c}{$0.08 $} \\
-				$Z$	& \multicolumn{2}{c}{$1.8 $} \\
-				$I_d$  & 230~A & 40~A\\
-				$r$ 	& 0.5~mm & 0.2~mm
-			\end{tabular}
-		\end{threeparttable}
-	\end{center}
-\end{table}
-
 \subsection{CAJ Plume Expansion Region}\label{subs:CAJ_expansion}
 
 The preliminary effect of the high energized concentration of plasma can be modeled \cite{KR} as a disturbed expansion, corresponding with \emph{Taylor-Sedov} blast wave model \cite{TAYLOR,SEDOV}: 
@@ -135,7 +115,7 @@ Following the blast expansion is the formation of jet generated at the plasma-ga
 
 We note two main contributors to the generation of the jet inside the CAJ plume expansion zone: thermal -- corresponding to heating the gas thus creating an expanding jet; momentum -- corresponding to momentum transfer from the plasma particles and the gas by elastic collisions. As the jet is formed in a relatively small time-scale, we assume that the larger contributions comes from the momentum transfer due to the typical gas heat dissipation time constants \cite{KRClose}.
 
-Assuming steady state conditions at the boundary, we can express the exerted force on the gas with respect to velocity as:
+Assuming steady state conditions at the boundary, as the discharge current, $I_d$, remains constant, we can express the exerted force on the gas with respect to velocity as:
 
 \begin{eqnarray}\label{eqn:force_mass_flux}
 	F_g &=& \dot{m} V_g
@@ -167,7 +147,7 @@ Using the state equation for an ideal gas, we get:
 	T &=& \frac{V^2_g}{R}
 \end{eqnarray}
 
-Where $T$ is the temperature and $R$ is the specific gas constant. \eqref{eqn:force_gas_temperature} relates the gas temperature to the jet velocity. We can therefore express the Mach number at the boundary, as:
+Where $T$ is the temperature and $R$ is the specific gas constant. \eqref{eqn:force_gas_temperature} relates the gas temperature to the jet velocity. Substituting $R = 287~J/kg/K$ and $V_g = 500 m/s$ results in a temperature values of around 850 K. From here we can express the Mach number at the boundary, as:
 
 \begin{eqnarray}
 	\mathrm{M} &=& \frac{V_g}{a} \\
@@ -175,23 +155,56 @@ Where $T$ is the temperature and $R$ is the specific gas constant. \eqref{eqn:fo
 	 &=& \sqrt{\frac{1}{\gamma}}
 \end{eqnarray}
 
-For most cases $\gamma \geq 1$. Specifically for ideal air $\gamma = 1.4$ -- We can therefore conclude that the boundary Mach is $\mathrm{M} = 0.845$
+For most cases, the heat capacity ratio $\gamma \geq 1$. %Specifically for ideal air at $1000^o~C$ $\gamma = 1.365$ -- We can therefore conclude that the boundary Mach is $\mathrm{M} = 0.856$. 
+Values of Mach and Temperature are summarized in Table~\ref{t:radii} for dry air.
+
+\begin{table}[hbt]
+	\begin{center}
+		\begin{threeparttable}
+			\caption{Calculated CAJ boundary radius}
+			\label{t:radii}
+			\begin{tabular}{lc|c}
+				Parameter &
+				\multicolumn{2}{c}{Value}\\\hline
+				$p$ & \multicolumn{2}{c}{$101 \times 10^3~\mathrm{Pa} $} \\
+				$T$	& \multicolumn{2}{c}{$1000^o~\mathrm{C}$} \\
+				$\gamma$ & \multicolumn{2}{c}{$1.365$} \\ 
+				$\mathrm{M}$	& \multicolumn{2}{c}{$0.856$} \\
+				$M_i$  	& \multicolumn{2}{c}{$1.055 \times 10^{-25}~\mathrm{kg} $}  \\
+				$V_i$ 	& \multicolumn{2}{c}{$12.5 \times 10^3~\mathrm{m/s} $}  \\
+				$f$ 	& \multicolumn{2}{c}{$0.08 $} \\
+				$Z$	& \multicolumn{2}{c}{$1.8 $} \\
+				$T$	& \multicolumn{2}{c}{$1000^o~\mathrm{C}$} \\
+				$\mathrm{M}$	& \multicolumn{2}{c}{$0.856$} \\
+				$I_d$  & 230~A & 40~A\\
+				$r$ 	& 0.5~mm & 0.2~mm
+			\end{tabular}
+		\end{threeparttable}
+	\end{center}
+\end{table}
 
 \section{Numerical Model}
 
-The numerical approach is based on the assumption that the CAJ effect on the background gas can be simulated by an application of acceleration field which causes the gas to reach the velocities obtained in the \cite{KR}. Therefore the jet simulation corresponds to a hot gas expansion at a subsonic speed.
+The numerical approach is based on the assumption that the CAJ effect on the background gas can be simulated by an application of acceleration field which causes the gas to reach the velocities obtained in the \cite{KR}. This corresponds by adding a body force acceleration to the Navier-Stokes momentum equations:
+
+\begin{eqnarray}
+\label{eqn:NS-Force}
+\frac{\partial \boldsymbol{u}}{\partial t} + (\boldsymbol{u} \cdot \nabla)\boldsymbol{u} &=& -\frac{1}{\rho}\nabla p + \frac{\mu}{\rho} \nabla^2 \boldsymbol{u} + \boldsymbol{F_b}
+\end{eqnarray}
+
+Where $\boldsymbol{F_b}$ represents the acceleration field.
 
 The numerical solution is carried out using a modified \texttt{OpenFOAM} \cite{OPENFOAM} open source toolbox solver, based on the \texttt{icoFoam} solver. The \texttt{icoFoam} is a pressure based solver for transient incompressible flows which was modified to include an external force field acting on the flow. An attempt was made to modify the compressible transient solvers \texttt{rhoCentralFoam}, \texttt{rhoPimpleFoam} without success - due to complex flux calculations methods implemented in the solvers. It is therefore important to note that compressibility effects are not taken into account in the proposed Numerical Model. This fact is plausible due to the fact that $\mathrm{M} < 1$ at boundary, as described in Section \ref{sec:physical_model}, Subsection \ref{subs:CAJ_expansion}, but should be taken into account when discussing the velocity profile.
 
-The numerical domain consists of 250 $\times$ 400\footnote{Grid dimensions were obtained by conducting grid size sensitivity runs, analyzing the CAJ profile} grid points representing a 15 mm $\times$ 30 mm dimensioned physical domain. 
+The numerical domain consists of 200 $\times$ 300\footnote{Grid dimensions were obtained by conducting grid size sensitivity runs, analyzing the CAJ profile} grid points representing a 15 mm $\times$ 30 mm dimensioned physical domain. The grid density is adjusted at the wall region to yield a maximal cell height of 0.1~mm. 
 
-We simulate the plasma-gas interaction by assuming a constant acceleration field just beneath the CAJ expansion plume region. The field properties are defined by the cathode spot and background gas parameters, as described in Section \ref{sec:physical_model}, Subsection \ref{subs:boundary_radius}. For the observed parameters representing the experiment \cite{KR} of Fig.~\ref{fig:CAJ}, the field was placed at $ y < 0.5~ \mathrm{mm} $ at a width of $r = 1~\mathrm{mm}$ (Fig. \ref{fig:force_field}), centered around $x=0~\mathrm{mm}$. This corresponds to a discharge current of around 230 A.
+We simulate the plasma-gas interaction by assuming a constant acceleration field just beneath the CAJ expansion plume region. The field properties are defined by the cathode spot and background gas parameters, as described in Section \ref{sec:physical_model}, Subsection \ref{subs:boundary_radius}. For the observed parameters representing the experiment \cite{KR} of Fig.~\ref{fig:CAJ}, the field was placed at $ y < 0.5~ \mathrm{mm} $ at a width of $r = 1~\mathrm{mm}$, centered around $x=0~\mathrm{mm}$. This corresponds to a discharge current of around 230 A.
 
-\begin{figure}[htbp]
-	\centering
-	\includegraphics[width=0.9\textwidth]{forceField}
-	\caption{Force field representation in the numerical domain. Red zone corresponds with the added acceleration field}\label{fig:force_field}
-\end{figure}
+%\begin{figure}[htbp]
+%	\centering
+%	\includegraphics[width=0.9\textwidth]{forceField}
+%	\caption{Force field representation in the numerical domain. Red zone corresponds with the added acceleration field}\label{fig:force_field}
+%\end{figure}
 
 Following measurement data \cite{KRClose}, the acceleration field is adjusted to yield a velocity of $500~ m/s$. It is assumed that the discharge current affects the observed initial CAJ expansion velocity location, yet not the value itself, which in turn defined by the background gas properties \cite{KR,KRClose,KRFar}. The gas is assumed to be motionless, atmospheric at a room temperature. The added momentum resulted from the acceleration field is translated to an expansion of the gas in the form of a jet.
 
@@ -204,6 +217,8 @@ The velocity and pressure fields obtained at $ t = 500~\mu s $ are illustrated i
 The pressure front position and velocity obtained in a simulation are visualized in Fig. \ref{fig:model_position} and Fig. \ref{fig:model_velocity}, respectively. There's a very good correspondence between the Taylor-Sedov \cite{TAYLOR,SEDOV} Blast model and the pressure/velocity front velocities obtained in the simulation. A comparison between the measurements from \cite{KR} shows as well similar behaviors for the velocity front evolution with time.
 
 The pressure front velocity and the CAJ velocity profile evolution are depicted in Fig. \ref{fig:model_caj_velocity}. We see that even though the velocity profile developed in the CAJ  follows the pressure's front velocity behind, the former one is larger in magnitude. This phenomenon corresponds well with the constant mass flux assumption yielding higher speeds at higher temperature regions obtained inside the CAJ region relative to lower speeds obtained at lower temperature obtained at the CAJ boundary with the background gas. However, these two velocities converge as the CAJ temperature drops towards the boundary with the background gas. 
+
+The CAJ velocity deceleration with respect to distance from the cathode is depicted in Fig. \ref{fig:model_caj_acceleration}, for various times. We can observe a sharp decrease of the deceleration magnitude at a certain distance from the cathode spot, for each time snapshot. Forming a threshold value of $-2\cdot 10^4~1/s$ we can see that deceleration values converge to a distance of about 6~mm (dotted vertical line). These results correspond well with the bright spot of the CAJ observed in \ref{fig:CAJ} which reaches lengths of 7~mm after about 100~$\mu s$. 
 
 \begin{figure}
 	\centering
@@ -220,7 +235,7 @@ The pressure front velocity and the CAJ velocity profile evolution are depicted 
 	\caption{(a) Velocity field, $ t = 500~\mu s $; (b) Pressure field, $ t = 500~\mu s $}
 \end{figure}
 
-\begin{figure}
+\begin{figure}[h]
 	\subfloat[Position]{
 		\includegraphics[width=0.5\textwidth]{ModelJetPosition.eps}
 		\label{fig:model_position}
@@ -237,6 +252,12 @@ The pressure front velocity and the CAJ velocity profile evolution are depicted 
 	\includegraphics[width=\textwidth]{Vel_Times.eps}
 	\caption{Front expansion rate (red squares); Time evolution of the CAJ velocity profile for sample times of $10~\mu s$, $50~\mu s$, $100~\mu s$, $150~\mu s$ and Steady state conditions (bline line); $50~m/s$ boundary line (black dash) }
 	\label{fig:model_caj_velocity}
+\end{figure}
+
+\begin{figure}
+	\includegraphics[width=\textwidth]{CAJAcceleration.eps}
+	\caption{Time evolution of the CAJ velocity profile deceleration with respect to distance from the cathode, for sample times of $10~\mu s$, $50~\mu s$, $100~\mu s$, $150~\mu s$ and Steady state conditions (bline line); $-2\cdot 10^4~1/s$ horizontal boundary line (black dash); 6~mm vertical line (black dotted) }
+	\label{fig:model_caj_acceleration}
 \end{figure}
 
 \section{Conclusions}
